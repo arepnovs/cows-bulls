@@ -140,7 +140,10 @@ int main()
                 break;
             }
             else
+            {
                 compare_nums(num, guess);
+                printf("Tries left: %d\n", try - i - 1);
+            }
             if (i < try -1)
                 printf("Enter your guess:\n");
             i++;
