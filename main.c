@@ -85,11 +85,24 @@ int     input_and_check(int flag)
     if (flag == 1)
     {
         scanf("%s", buf);
-        num = atoi(buf);
-        while (num_check(num) == 1) {
-            printf("WRONG INPUT!!! Please, enter number with 4 different digits\n");
-            scanf("%s", buf);
+        if (strcmp(buf, "rand") == 0)
+        {
+            srand (time(NULL));
+            num = rand() %9877 + 1233;
+            while (num_check(num) == 1) {
+                printf("WRONG INPUT!!! Please, enter number with 4 different digits\n");
+                scanf("%s", buf);
+                num = rand() %9877 + 1233;
+            }
+        }
+        else
+        {
             num = atoi(buf);
+            while (num_check(num) == 1) {
+                printf("WRONG INPUT!!! Please, enter number with 4 different digits\n");
+                scanf("%s", buf);
+                num = atoi(buf);
+            }
         }
     }
     else
@@ -120,7 +133,7 @@ int main()
     while (new_try == 'y')
     {
         i = 0;
-        printf("Enter number with 4 different digits to guess\n");
+        printf("Enter number with 4 different digits or enter \"rand\" for random number\n");
         num = input_and_check(1);
         printf("%s", CLEAR);
         printf("%s", RETUR);

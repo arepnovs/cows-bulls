@@ -9,6 +9,7 @@
 #include <string.h>
 #include <pwd.h>
 #include <unistd.h>
+#include <time.h>
 # define CLEAR  "\033[2J"
 # define RETUR  "\033[0;0f"
 
