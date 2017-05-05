@@ -77,48 +77,59 @@ int     num_check(int num)
     return(0);
 }
 
+int     get_random()
+{
+    int num;
+
+    srand (time(NULL));
+    num = rand() % 9877 + 1233;
+    while (num_check(num) == 1)
+        num = rand() %9877 + 1233;
+    return(num);
+}
+
 int     input_and_check(int flag)
 {
     char buf[1000];
     int num;
+    int e;
 
     if (flag == 1)
     {
-        scanf("%s", buf);
+        e = scanf("%s", buf);
         if (strcmp(buf, "rand") == 0)
-        {
-            srand (time(NULL));
-            num = rand() %9877 + 1233;
-            while (num_check(num) == 1) {
-                printf("WRONG INPUT!!! Please, enter number with 4 different digits\n");
-                scanf("%s", buf);
-                num = rand() %9877 + 1233;
-            }
-        }
+            num = get_random();
         else
         {
             num = atoi(buf);
-            while (num_check(num) == 1) {
-                printf("WRONG INPUT!!! Please, enter number with 4 different digits\n");
-                scanf("%s", buf);
-                num = atoi(buf);
+            while (num_check(num) == 1 && e != EOF)
+            {
+                printf("WRONG INPUT!!! Please, enter number with 4 different digits:\n");
+                e = scanf("%s", buf);
+                if (strcmp(buf, "rand") == 0)
+                    num = get_random();
+                else
+                    num = atoi(buf);
             }
         }
     }
     else
     {
-        scanf("%s", buf);
+        e = scanf("%s", buf);
+        if (e == EOF)
+            exit(0);
         num = atoi(buf);
-        while (num <= 0)
+        while (num <= 0 && e != EOF)
         {
-            printf("WRONG INPUT!!! Please, enter 1 or more tries\n");
-            scanf("%s", buf);
+            printf("WRONG INPUT!!! Please, enter 1 or more tries:\n");
+            e = scanf("%s", buf);
+            if (e == EOF)
+                exit(0);
             num = atoi(buf);
         }
     }
     return (num);
 }
-
 
 int main()
 {
@@ -130,18 +141,19 @@ int main()
 
     new_try = 'y';
 
-    while (new_try == 'y')
+    while (new_try == 'y' && new_try != 'n')
     {
         i = 0;
-        printf("Enter number with 4 different digits or enter \"rand\" for random number\n");
+        printf("Enter number with 4 different digits or enter \"rand\" for random number:\n");
         num = input_and_check(1);
         printf("%s", CLEAR);
         printf("%s", RETUR);
-        printf("Enter amount of tries\n");
+        printf("Enter amount of tries:\n");
         try = input_and_check(0);
-        printf("Enter your guess:\n");
         while (i < try && new_try == 'y')
         {
+            if (i < try)
+                printf("Enter your guess:\n");
             guess = input_and_check(1);
             if (num == guess)
             {
@@ -156,8 +168,6 @@ int main()
                 compare_nums(num, guess);
                 printf("Tries left: %d\n", try - i - 1);
             }
-            if (i < try -1)
-                printf("Enter your guess:\n");
             i++;
         }
         if (i != -1)
