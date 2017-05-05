@@ -109,7 +109,6 @@ int     input_and_check(int flag)
 
 int main()
 {
-    char buf[100];
     int num;
     int try;
     int guess;
